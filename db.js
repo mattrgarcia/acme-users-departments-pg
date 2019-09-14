@@ -33,7 +33,18 @@ const SQL = `
 const syncAndSeed = async ()=> {
   await client.query(SQL);
 };
+const findAllDepartments = async ()=> {
+  const response = await client.query('SELECT * FROM departments');
+  return response.rows;
+};
+const findAllUsers = async ()=> {
+  const response = await client.query('SELECT * FROM users');
+  return response.rows;
+};
+
 
 module.exports = {
-  syncAndSeed
+  syncAndSeed,
+  findAllDepartments,
+  findAllUsers
 }
