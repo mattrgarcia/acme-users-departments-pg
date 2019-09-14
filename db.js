@@ -5,6 +5,12 @@ const client = new Client('postgres://localhost/acme-users-departments');
 
 client.connect();
 
+const hrId = uuid.v4();
+const salesId = uuid.v4();
+const marketingId = uuid.v4();
+const itId = uuid.v4();
+const user1Id = uuid.v4();
+
 const SQL = `
   DROP TABLE IF EXISTS users;
   DROP TABLE IF EXISTS departments;
@@ -17,12 +23,17 @@ const SQL = `
     name VARCHAR(255),
     department_id UUID REFERENCES departments(id)
   );
+  INSERT INTO departments (id, name) values('${hrId}', 'HR Department');
+  INSERT INTO departments (id, name) values('${salesId}', 'Sales Department');
+  INSERT INTO departments (id, name) values('${marketingId}', 'Marketing Department');
+  INSERT INTO departments (id, name) values('${itId}', 'IT Department');
+  INSERT INTO users(id, name, department_id) values('${user1Id}', 'Matt','${itId}');
 `;
 
-const syncAndSeed = async()=> {
+const syncAndSeed = async ()=> {
   await client.query(SQL);
 };
 
-syncAndSeed();
-
-
+module.exports = {
+  syncAndSeed
+}
